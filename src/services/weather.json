@@ -1,0 +1,43 @@
+{
+    "coord": {
+        "lon": 37.5,
+        "lat": 48.9
+    },
+    "weather": [
+        {
+            "id": 800,
+            "main": "Clear",
+            "description": "clear sky",
+            "icon": "01d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 294.28,
+        "feels_like": 292.79,
+        "temp_min": 294.28,
+        "temp_max": 294.28,
+        "pressure": 1016,
+        "humidity": 55,
+        "sea_level": 1016,
+        "grnd_level": 1005
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 2.9,
+        "deg": 4
+    },
+    "clouds": {
+        "all": 0
+    },
+    "dt": 1596438947,
+    "sys": {
+        "country": "UA",
+        "sunrise": 1596420369,
+        "sunset": 1596474366
+    },
+    "timezone": 10800,
+    "id": 693468,
+    "name": "Sloviansk",
+    "cod": 200
+}

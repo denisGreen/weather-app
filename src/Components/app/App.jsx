@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from "react-redux";
+
+import { Switch, Route } from "react-router-dom";
 
 import WeatherBox from "../weather-box";
 import weatherData from "../../services/weather-test-data";
-import { withWeatherService } from "../hoc";
+import withWeatherService from "../hoc";
+import Home from "../pages/home";
 import './App.css';
 
 
@@ -15,9 +17,12 @@ function App() {
     
   return (
     <Container fluid className="App">
-      <WeatherBox {...weatherData}/>
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route render={() => <div>Page Not Found</div>} />
+      </Switch>
     </Container>
   );
 }
 
-export default withWeatherService()(App)
+export default withWeatherService()(App);

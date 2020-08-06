@@ -11,15 +11,19 @@ import 'semantic-ui-css/semantic.min.css'
 
 import App from './Components/app';
 import ErrorBoundry from './Components/error-boundry';
+import weatherService from "./services/weather-service";
+import { WeatherServiceProvider } from "./Components/weather-service-context";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-    <ErrorBoundry>
-        <Router>
-          <App />
-        </Router>
-    </ErrorBoundry>
+      <ErrorBoundry>
+        <WeatherServiceProvider value={weatherService}>
+          <Router>
+            <App />
+          </Router>
+        </WeatherServiceProvider>
+      </ErrorBoundry>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

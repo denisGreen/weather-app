@@ -5,11 +5,12 @@ const withWeatherService = () => Wrapped => {
   return props => {
     return (
       <WeatherServiceConsumer>
-        {bookstoreService => {
+        {weatherService => {
           return <Wrapped {...props} weatherService={weatherService} />;
         }}
       </WeatherServiceConsumer>
     );
   };
 };
+
 export default withWeatherService;

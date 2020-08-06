@@ -1,35 +1,53 @@
-import {useDispatch} from 'react-redux';
 import  actionTypes from './action-types';
 import actionCreator from './actions-creator';
-import { getWeather } from '../services/weather-service';
+
+
 
 
 //sync actions
 export const weatherRequested = ()=> actionCreator(actionTypes.FETCH_REQUEST);
-export const weatherSuccses = apiData=> actionCreator(actionTypes.FETCH_SUCCSES);
-export const weatherError = error => actionCreator(actionTypes.FETCH_ERROR);
-export const locationRequested = ()=> actionCreator(actionTypes.FETCH_REQUEST);
-export const locationSuccses = location => actionCreator(actionTypes.FETCH_SUCCSES);
-export const locationError = error => actionCreator(actionTypes.FETCH_ERROR);
+export const weatherSuccses = apiData=> actionCreator(actionTypes.FETCH_SUCCSES, apiData);
+export const weatherError = error => actionCreator(actionTypes.FETCH_ERROR, error);
+export const locationRequested = ()=> actionCreator(actionTypes.LOCATION_REQUEST);
+export const locationSuccses = location => actionCreator(actionTypes.LOCATION_SUCCSES, location);
+export const locationError = error => actionCreator(actionTypes.LOCATION_ERROR, error);
 
 
 //async actions
+export const getLocation = ()=> dispatch =>{
+    dispatch(locationRequested());
+    const success=(position)=>{
+        dispatch(locationSuccses({
+            latitude: position.coords.latitude, 
+            longitude:position.coords.longitude
+        }));
+    }
+    const error = ()=>{
+        dispatch(locationError("location error"));
+    }
+    if(!navigator.geolocation) {
 
+        dispatch(locationError("No geolocation!"));
+    } else {
+          
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+}
 
-export const fetchWeather = async(dispatch, location) => {
-    dispatch(weatherRequested());
-
-    
-    //fetching data from the server
+export const fetchWeather = weatherService => location => dispatch => {
+    dispatch(weatherRequested()); 
+    console.log("fetchWeather", weatherService, location, dispatch); 
     
     return (
-       
-        getWeather(location)
+        //fetching data from the server
+        
+        weatherService.getWeather(location)
         
         //dispatching 'FETCH_SUCCSES' action to the Redux store
         .then(
           result => {
-            dispatch(weatherSuccses(result));
+              
+            dispatch(weatherSuccses(result.data));
           },
           //in case of error dispatch 'FETCH_ERROR'
           error => {

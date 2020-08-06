@@ -1,31 +1,61 @@
-import React from "react";
-import ReactAnimatedWeather from 'react-animated-weather';
+import React, { useEffect} from "react";
+//import PropTypes from "prop-types";
+import AnimatedIcon from "../animated-icon";
+import { Grid, Container } from 'semantic-ui-react';
 
-const defaults = {
-  icon: 'PARTLY_CLOUDY_DAY',
-  color: 'goldenrod',
-  size: 150,
-  animate: true
-};
+import './weather-box.css'
 
 
-const WeatherBox = ({name, weather,main, wind, sys})=>{
-    let {temp} = main;
-    let {country} = sys;
+
+
+
+const WeatherBox = ({list, city})=>{
+    let {main, weather, wind} = list[0];
+    let {temp, humidity} = main;
+    let {speed} = wind;
+    let {country, name} = city;
+    let {icon} = weather[0];
+    
+    let dateTimeNow = new Date().toDateString();
+
+    useEffect(() => {
+        //getting geolocation
+
+        //getting weather from the server
+        
+       // dispatch(fetchWeather(useGeolocation()));
+        
+    }, []);
+    
     
     return(
-        <div className="weather-box">
-            <ReactAnimatedWeather
-    icon={defaults.icon}
-    color={defaults.color}
-    size={defaults.size}
-    animate={defaults.animate}
-  />
-            <p className="city">{name}</p>
-            <p className="country">{country}</p>
-            <p className="temperature">{temp}</p>
-        </div>
+        <Container className="weather-box">
+            <Grid>
+                <Grid.Column className="weather-box-icon-box" floated="left" width={3}>
+                    <AnimatedIcon icon={icon}/>
+                </Grid.Column>
+                <Grid.Column className="weather-box-text" width={3} >
+                    <p className="temperature">{temp} C</p>
+                </Grid.Column>
+                <Grid.Column className="weather-box-text" floated="right" width={5}>
+                    <p className="humidity">Humidity: {humidity} %</p>
+                    <p className="speed">Wind Speed: {speed} m/s</p>
+                </Grid.Column>
+                <Grid.Column className="weather-box-text" floated="right" width={5}>
+                    <p className="city">{name}, {country}</p>
+                    <p className="date-time-now">{dateTimeNow}</p>
+            </Grid.Column>
+            </Grid>
+            <Grid.Row>
+                <Grid.Column width={16}>
+                    
+                </Grid.Column>
+            </Grid.Row>
+        </Container>
     )
 }
 
+WeatherBox.propTypes ={
+
+}
 export default WeatherBox;

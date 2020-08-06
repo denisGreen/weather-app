@@ -1,0 +1,10 @@
+.weather-box{
+    max-width: 60%!important;
+    border: black 0.1em solid;
+    background-color: #ffffff45;
+    color: #fff;
+    font: small-caps bold 1.5em sans-serif;
+}
+.weather-box-text>p:first-child{
+    margin-top: 2em !important;
+}

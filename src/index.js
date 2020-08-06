@@ -1,16 +1,25 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './Components/app';
-import store from './store';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import store from './store';
+
+import './index.css';
+import 'semantic-ui-css/semantic.min.css'
+
+import App from './Components/app';
+import ErrorBoundry from './Components/error-boundry';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+    <ErrorBoundry>
+        <Router>
+          <App />
+        </Router>
+    </ErrorBoundry>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

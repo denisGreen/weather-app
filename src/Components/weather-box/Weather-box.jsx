@@ -8,50 +8,70 @@ import { Grid, Container } from 'semantic-ui-react';
 import ErrorIndicator from '../error-indicator';
 import withWeatherService from "../hoc";
 
-import { fetchWeather } from '../../Actions';
+import { 
+        weatherRequested,
+        weatherSuccses, 
+        weatherError 
+        } from '../../Actions';
 
 import './weather-box.css'
 
 
-const WeatherBox = ({weatherService}) => {
-    let service = new weatherService;
+const WeatherBox = ({ weatherService }) => {
+    let service =  new weatherService();
+    
 
     //subscribing to the store
     const { weatherData, location, isLoading, isError, isLocated } = useSelector(state => state);
     const state = useSelector(state => state);
+    
     const dispatch = useDispatch();
     console.log("weatherBox", service, location, state);
 
-    
-    useEffect(() => {
-        //getting geolocation
 
-        if(isLocated){
-            console.log("effect", service)
-            //getting weather from the servers
-            dispatch(fetchWeather(service, location, dispatch));
-        };
+    useEffect(() => {
         
+        const fetchWeather = async () => {
+            dispatch(weatherRequested());
+            
+            if (isLocated && !weatherData.city) {
+
+                try{
+                    const result = await service.getWeather(location);
+                    dispatch(weatherSuccses(result.data));
+                }catch (error){
+                    dispatch(weatherError(error));
+                }
+                
+                // console.log("effect", service)
+                // //getting weather from the servers
+                // dispatch(fetchWeather(serviceLocation));
+            } else {
+                console.log(isLocated, "else isLocated")
+            };
+        }
+
+        fetchWeather();
 
     }, [isLocated]);
 
-    if(isLoading) {
+    if (isLoading) {
         return "Loading..."
     } else if (isError) {
         return <ErrorIndicator />;
-    }else if(!isLocated){
-        return(
+    } else if (!isLocated) {
+        return (
             <div>Please allow the geolocation in the browser</div>
         )
-    } else {
+    } else if(weatherData.city){
         let { list, city } = weatherData;
         let { main, weather, wind } = list[0];
         let { temp, humidity } = main;
         let { speed } = wind;
         let { country, name } = city;
-        let { icon } = weather[0];   
+        let { icon } = weather[0];
 
-    let dateTimeNow = new Date().toDateString();
+        let dateTimeNow = new Date().toDateString();
 
         return (
             <Container className="weather-box">

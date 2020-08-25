@@ -2,6 +2,7 @@ import actionTypes from '../Actions/action-types';
 
 const innitialState = {
     isLoading: true,
+    chek:true,
     isError: false,
     isLocated: false,
     requestError:"",
@@ -14,23 +15,26 @@ const rootReducer = (state = innitialState, action)=>{
     switch(action.type){
         case actionTypes.FETCH_REQUEST:
             return {
-                isLoading: true,
-                ...state
+                ...state,
+                isLoading: true
             }
         case actionTypes.FETCH_SUCCSES:
+            
             return {
-                isLoading: false,
+                
                 ...state,
+                isLoading: false,
                 weatherData: action.payload,
+                
             }
         case actionTypes.FETCH_ERROR:
             return{
+                ...state,
                 isLoading: false,
-                requestError: action.payload,
-                ...state
+                requestError: action.payload
             }
         case actionTypes.LOCATION_SUCCSES:
-            console.log(actionTypes.LOCATION_SUCCSES, action.payload)
+            
             return {
                 ...state,
                 isLocated: true,
@@ -39,9 +43,9 @@ const rootReducer = (state = innitialState, action)=>{
             }
         case actionTypes.LOCATION_ERROR:
             return{
+                ...state,
                 isLoading: false,
-                locationError: action.payload,
-                ...state
+                locationError: action.payload
             }
         default:
             return state;

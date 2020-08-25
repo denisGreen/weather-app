@@ -34,14 +34,15 @@ export const getLocation = ()=> dispatch =>{
     }
 }
 
-export const fetchWeather = weatherService => location => dispatch => {
+export const fetchWeather = ()=>serviceLocation => dispatch => {
+    const {service, location} = serviceLocation;
     dispatch(weatherRequested()); 
-    console.log("fetchWeather", weatherService, location, dispatch); 
+    console.log("fetchWeather", service, location, dispatch); 
     
     return (
         //fetching data from the server
         
-        weatherService.getWeather(location)
+        service.getWeather(location)
         
         //dispatching 'FETCH_SUCCSES' action to the Redux store
         .then(
